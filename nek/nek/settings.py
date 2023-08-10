@@ -1,12 +1,22 @@
+import os
 from pathlib import Path
+from dotenv import load_dotenv
+
+PATH_TO_DOTENV = Path.cwd().parent.joinpath(".env")
+
+load_dotenv(dotenv_path=PATH_TO_DOTENV)
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-^h6b&#ynl!2bo^_(@cc23j*7o-kxl*pu478$eosf5q%)9252-y'
+# SECRET_KEY = 'django-insecure-^h6b&#ynl!2bo^_(@cc23j*7o-kxl*pu478$eosf5q%)9252-y'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "127.0.0.1",
+    "0.0.0.0",
+]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -52,16 +62,27 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'nek.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+if not DEBUG:
+    DATABASES = {
+        'default': {
+            'ENGINE': os.getenv('DB_ENGINE', default='django.db.backends.postgresql'),
+            'NAME': os.getenv('POSTGRES_NAME', default='postgres'),
+            'USER': os.getenv('POSTGRES_USER', default='postgres'),
+            'PASSWORD': os.getenv('POSTGRES_PASSWORD', default='postgres'),
+            'HOST': os.getenv('POSTGRES_HOST', default='db'),
+            'PORT': os.getenv('POSTGRES_PORT', default='5432')
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
+    }
+
+STATIC_URL = "/django_static/"
+STATIC_ROOT = BASE_DIR / "django_static"
 
 
 # Password validation
@@ -111,7 +132,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_URL = '/static/'
+# STATIC_URL = '/static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -119,3 +140,12 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 100000
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+CELERY_BROKER_URL = os.getenv("BROKER_URL", "redis://localhost:6379/0")
+CELERY_RESULT_BACKEND = os.getenv("RESULT_BACKEND", "redis://localhost:6379/0")
+
+CELERY_ACCEPT_CONTENT = {'application/json'}
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TASK_SERIALIZER = 'json'
