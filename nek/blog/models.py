@@ -24,10 +24,15 @@ class Post(models.Model):
         related_name='post',
         on_delete=models.CASCADE,
     )
-    # readed = models.ManyToManyField(
-    #     User,
-    #     on_delete=models.CASCADE,
-    # )
+    blog = models.ForeignKey(
+        'Blog',
+        verbose_name='blog',
+        related_name='post',
+        on_delete=models.CASCADE,
+        # для создания тестовой базы
+        null=True,
+        blank=True,
+    )
     
     class Meta:
         verbose_name = 'post'
@@ -39,6 +44,7 @@ class Post(models.Model):
 
 
 class Blog(models.Model):
+    """Blog model."""
     title = models.CharField(
         verbose_name='title',
         max_length=50,
@@ -47,13 +53,7 @@ class Blog(models.Model):
         verbose_name='description',
         max_length=250,
     )
-    subscriptions = models.ManyToManyField(
-        User,
-        related_name='subscription',
-        blank=True,
-        verbose_name='subscriptions',
-    )
-    author = models.ForeignKey(
+    author = models.OneToOneField(
         User,
         related_name='blog',
         verbose_name='author',
@@ -66,3 +66,30 @@ class Blog(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class ReadedPost(models.Model):
+    """ReadedPost model."""
+    
+    user = models.ForeignKey(
+        User,
+        related_name='user_readed',
+        on_delete=models.CASCADE,
+        verbose_name='user readed',
+    )
+    post = models.ForeignKey(
+        Post,
+        related_name='post_readed',
+        on_delete=models.CASCADE,
+        verbose_name='post readed',
+    )
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['user', 'post'],
+                name='unique_post'
+            ),
+            models.CheckConstraint(
+                check=~models.Q(user=models.F('post')),
+                name='check_self_post'),
+        ]
