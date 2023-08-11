@@ -10,8 +10,9 @@ from users.models import Follow
 
 @shared_task
 def task_execute():
+    """Должно запускать таску в селери."""
 
-    user_list = User.objects.all()[:10] 
+    user_list = User.objects.all()
 
     for user in user_list:
         subject = 'Last News!!!'

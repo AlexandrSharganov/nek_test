@@ -8,6 +8,7 @@ from blog.models import Post, Blog, ReadedPost
 
 
 class BlogSerializer(serializers.ModelSerializer):
+    """Сериализатор получения блога."""
     
     class Meta:
         model = Post
@@ -17,6 +18,7 @@ class BlogSerializer(serializers.ModelSerializer):
 
 
 class ReadedPostSerializer(serializers.ModelSerializer):
+    """Сериализатор получения прочитанных постов."""
     
     read_status = serializers.SerializerMethodField()
     
@@ -39,7 +41,7 @@ class ReadedPostSerializer(serializers.ModelSerializer):
 
 
 class UserPostSerializer(serializers.ModelSerializer):
-    """Сериализатор получения пользователей."""
+    """Сериализатор информации об авторе поста."""
 
     class Meta:
         model = User
@@ -49,6 +51,7 @@ class UserPostSerializer(serializers.ModelSerializer):
 
 
 class PostSerializer(serializers.ModelSerializer):
+    """Сериализатор получения постов."""
     
     author = UserPostSerializer(read_only=True)
     read_status = serializers.SerializerMethodField()
@@ -64,13 +67,3 @@ class PostSerializer(serializers.ModelSerializer):
             post=obj,
             user=self.context['request'].user
         ).exists()
-        
-class PostCreateSerializer(serializers.ModelSerializer):
-    
-    author = UserPostSerializer(read_only=True)
-    
-    class Meta:
-        model = Post
-        fields = (
-            'id', 'title', 'text', 'author'
-        )

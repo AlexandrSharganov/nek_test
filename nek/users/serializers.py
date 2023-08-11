@@ -5,29 +5,6 @@ from rest_framework.validators import UniqueTogetherValidator
 from .models import Follow
 
 
-class MyUserSerializer(serializers.ModelSerializer):
-    """Сериализатор получения пользователей."""    
-
-    class Meta:
-        model = User
-        fields = (
-            'email', 'id', 'username', 'first_name',
-            'last_name',
-        )
-
-
-class MyUserCreateSerializer(serializers.ModelSerializer):
-    """Сериализатор создания пользователей."""
-
-    class Meta:
-        model = User
-        fields = (
-            'email',
-            'username',
-            'password',
-        )
-
-
 class FollowSerializer(serializers.ModelSerializer):
     """Сериализатор создания подписки."""
 

@@ -10,6 +10,7 @@ from blog.models import Blog, Post
 
 @receiver(post_save, sender=User)
 def save_or_create_create(sender, instance, created, **kwargs):
+    """Создание блога вместе с пользователем."""
     if created:
         title = f'{instance.username}`s blog'
         Blog.objects.create(author=instance, title=title)
@@ -46,19 +47,4 @@ class Follow(models.Model):
 
     def __str__(self):
         return f'{self.user} {self.author}'
-    
-    
-from mixer.backend.django import mixer
-
-
-# mixer.cycle(1000).blend(User)
-
-# for i in User.objects.all():
-#     for k in (User.objects.filter(id__gt=975)):
-#         try:
-#             mixer.cycle(100).blend(Follow, author=k, user=i)
-#         except IntegrityError:
-#             continue
-# for i in User.objects.all():
-#     mixer.cycle(5).blend(Post, author=mixer.SELECT)
     

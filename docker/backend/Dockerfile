@@ -12,7 +12,6 @@ RUN \
  apk add --no-cache --virtual .build-deps gcc musl-dev postgresql-dev && \
  pip install -r requirements.txt --no-cache-dir && \
  apk --purge del .build-deps
-# RUN pip install -r requirements.txt
 
 ADD ./nek /app/nek
 ADD ./docker /app/docker

@@ -42,10 +42,10 @@ class PostViewSet(mixins.ListModelMixin,
 
 
 class APIReaded(views.APIView):
-    """Вьюшка для создания/удаления подписки."""
+    """Вью для отметки прочитанного поста."""
 
     def post(self, request, pk=None):
-        """Создание подписки."""
+        """Отмечаем что пользователь прочитал пост."""
         user = get_object_or_404(User, username=request.user)
         post = get_object_or_404(Post, pk=pk)
         try:
@@ -64,5 +64,6 @@ class APIReaded(views.APIView):
 
 @api_view(['GET'])
 def send_email(request):
+    """Функция рассылки писем."""
     task_execute()
     return Response({'message': 'send_email WORKS!!!!'}) 

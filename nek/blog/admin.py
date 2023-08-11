@@ -5,7 +5,7 @@ from .models import Post, Blog, ReadedPost
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
-    """Админка пользователей."""
+    """Админка постов."""
 
     list_display = (
         'id', 'title', 'text', 'pub_date', 'author',
@@ -17,7 +17,7 @@ class PostAdmin(admin.ModelAdmin):
 
 @admin.register(Blog)
 class BlogAdmin(admin.ModelAdmin):
-    """Админка пользователей."""
+    """Админка блогов."""
 
     list_display = (
         'id', 'title', 'description',

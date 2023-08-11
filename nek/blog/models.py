@@ -38,7 +38,7 @@ class Post(models.Model):
         verbose_name = 'post'
         verbose_name_plural = 'posts'
         ordering = ('-pub_date',)
-        
+
     def __str__(self):
         return self.title
 
@@ -93,3 +93,6 @@ class ReadedPost(models.Model):
                 check=~models.Q(user=models.F('post')),
                 name='check_self_post'),
         ]
+
+    def __str__(self):
+        return f'{self.user} {self.post}'
