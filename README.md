@@ -74,4 +74,4 @@ docker-compose down -v
 - redis
 
 #### Примечание:
-Впервые столкнулся с проблемой автоматического изменения LF в CRLF. Вредный Git, чтоб его. Проблеу решил добавлением файла [.gitattributes](https://github.com/AlexandrSharganov/nek_test/blob/master/.gitattributes)
+Впервые столкнулся с проблемой автоматического изменения LF в CRLF. Вредный Git, чтоб его. Проблему решил добавлением файла [.gitattributes](https://github.com/AlexandrSharganov/nek_test/blob/master/.gitattributes)
