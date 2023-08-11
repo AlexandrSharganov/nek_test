@@ -1,8 +1,9 @@
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
 from rest_framework import mixins, viewsets, views, status
-from rest_framework.response import Response
 from django.db.utils import IntegrityError
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
 from blog.models import Post
 from blog.serializers import PostSerializer, ReadedPostSerializer
@@ -10,6 +11,7 @@ from users.models import Follow
 
 from .pagination import CustomPostPagination
 from .permissions import OwnerOrReadOnly
+from .tasks import task_execute
 
 
 class PostViewSet(mixins.ListModelMixin,
@@ -59,3 +61,8 @@ class APIReaded(views.APIView):
                 serializer.error,
                 status=status.HTTP_400_BAD_REQUEST
             )
+
+@api_view(['GET'])
+def send_email(request):
+    task_execute()
+    return Response({'message': 'send_email WORKS!!!!'}) 

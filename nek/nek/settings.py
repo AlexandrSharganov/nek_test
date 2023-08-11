@@ -11,11 +11,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECRET_KEY = 'django-insecure-^h6b&#ynl!2bo^_(@cc23j*7o-kxl*pu478$eosf5q%)9252-y'
 SECRET_KEY = os.getenv('SECRET_KEY')
 
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     "127.0.0.1",
     "0.0.0.0",
+    "localhost",
 ]
 
 INSTALLED_APPS = [
@@ -62,24 +63,24 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'nek.wsgi.application'
 
-if not DEBUG:
-    DATABASES = {
-        'default': {
-            'ENGINE': os.getenv('DB_ENGINE', default='django.db.backends.postgresql'),
-            'NAME': os.getenv('POSTGRES_NAME', default='postgres'),
-            'USER': os.getenv('POSTGRES_USER', default='postgres'),
-            'PASSWORD': os.getenv('POSTGRES_PASSWORD', default='postgres'),
-            'HOST': os.getenv('POSTGRES_HOST', default='db'),
-            'PORT': os.getenv('POSTGRES_PORT', default='5432')
-        }
+# if not DEBUG:
+DATABASES = {
+    'default': {
+        'ENGINE': os.getenv('DB_ENGINE', default='django.db.backends.postgresql'),
+        'NAME': os.getenv('POSTGRES_NAME', default='postgres'),
+        'USER': os.getenv('POSTGRES_USER', default='postgres'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD', default='postgres'),
+        'HOST': os.getenv('POSTGRES_HOST', default='db'),
+        'PORT': os.getenv('POSTGRES_PORT', default='5432')
     }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        }
-    }
+}
+# else:
+#     DATABASES = {
+#         'default': {
+#             'ENGINE': 'django.db.backends.sqlite3',
+#             'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#         }
+#     }
 
 STATIC_URL = "/django_static/"
 STATIC_ROOT = BASE_DIR / "django_static"

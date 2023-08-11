@@ -6,4 +6,4 @@ do
 done
 
 # run a worker :)
-celery -A nek worker --loglevel=info --concurrency 1 -E
+celery -A nek worker --loglevel DEBUG --concurrency 1 -E
