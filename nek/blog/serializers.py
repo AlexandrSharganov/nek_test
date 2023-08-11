@@ -1,15 +1,14 @@
-from django.shortcuts import get_object_or_404
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
 
 from users.models import User
 
-from blog.models import Post, Blog, ReadedPost
+from blog.models import Post, ReadedPost
 
 
 class BlogSerializer(serializers.ModelSerializer):
     """Сериализатор получения блога."""
-    
+
     class Meta:
         model = Post
         fields = (
@@ -19,10 +18,9 @@ class BlogSerializer(serializers.ModelSerializer):
 
 class ReadedPostSerializer(serializers.ModelSerializer):
     """Сериализатор получения прочитанных постов."""
-    
+
     read_status = serializers.SerializerMethodField()
-    
-    
+
     class Meta:
         model = ReadedPost
         fields = ('id', 'user', 'post', 'read_status',)
@@ -32,7 +30,7 @@ class ReadedPostSerializer(serializers.ModelSerializer):
                 fields=('user', 'post'),
             )
         ]
-        
+
     def get_read_status(self, obj):
         return ReadedPost.objects.filter(
             post=obj.post,
@@ -52,7 +50,7 @@ class UserPostSerializer(serializers.ModelSerializer):
 
 class PostSerializer(serializers.ModelSerializer):
     """Сериализатор получения постов."""
-    
+
     author = UserPostSerializer(read_only=True)
     read_status = serializers.SerializerMethodField()
 
@@ -61,7 +59,7 @@ class PostSerializer(serializers.ModelSerializer):
         fields = (
             'id', 'title', 'text', 'pub_date', 'author', 'blog', 'read_status'
         )
-    
+
     def get_read_status(self, obj):
         return ReadedPost.objects.filter(
             post=obj,

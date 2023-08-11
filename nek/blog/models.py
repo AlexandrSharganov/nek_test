@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 class Post(models.Model):
     """Post model."""
-    
+
     title = models.CharField(
         verbose_name='title',
         max_length=50,
@@ -33,7 +33,7 @@ class Post(models.Model):
         null=True,
         blank=True,
     )
-    
+
     class Meta:
         verbose_name = 'post'
         verbose_name_plural = 'posts'
@@ -45,6 +45,7 @@ class Post(models.Model):
 
 class Blog(models.Model):
     """Blog model."""
+
     title = models.CharField(
         verbose_name='title',
         max_length=50,
@@ -70,7 +71,7 @@ class Blog(models.Model):
 
 class ReadedPost(models.Model):
     """ReadedPost model."""
-    
+
     user = models.ForeignKey(
         User,
         related_name='user_readed',
@@ -83,6 +84,7 @@ class ReadedPost(models.Model):
         on_delete=models.CASCADE,
         verbose_name='post readed',
     )
+
     class Meta:
         constraints = [
             models.UniqueConstraint(

@@ -10,7 +10,6 @@ class PostAdmin(admin.ModelAdmin):
     list_display = (
         'id', 'title', 'text', 'pub_date', 'author',
     )
-    
     list_display_links = ('id', 'title')
     empty_value_display = '-пусто-'
 

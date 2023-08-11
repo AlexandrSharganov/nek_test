@@ -1,11 +1,9 @@
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.models import User
-from django.db.utils import IntegrityError
 
-from blog.models import Blog, Post
+from blog.models import Blog
 
 
 @receiver(post_save, sender=User)
@@ -47,4 +45,3 @@ class Follow(models.Model):
 
     def __str__(self):
         return f'{self.user} {self.author}'
-    

@@ -6,7 +6,7 @@ from celery import shared_task
 from blog.models import Post
 
 from users.models import Follow
-   
+
 
 @shared_task
 def task_execute():
@@ -35,5 +35,4 @@ def task_execute():
             send_mail(subject, message, from_email, recipient_list)
         else:
             continue
-        
     return "Done"

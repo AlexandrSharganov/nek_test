@@ -19,12 +19,14 @@ class PostViewSet(mixins.ListModelMixin,
                   mixins.DestroyModelMixin,
                   mixins.RetrieveModelMixin,
                   viewsets.GenericViewSet):
-    """Вьюсет создания, удаления, получения списка постов или отдельного поста."""
-    
+    """Вьюсет создания, удаления, получения списка
+    постов или отдельного поста.
+    """
+
     serializer_class = PostSerializer
     pagination_class = CustomPostPagination
     permission_classes = (OwnerOrReadOnly,)
-    
+
     def get_queryset(self):
         """Выбираем queryset для работы с постами."""
         if self.action == 'list':
@@ -32,7 +34,7 @@ class PostViewSet(mixins.ListModelMixin,
             subscribes = Follow.objects.filter(user=user).values('author')
             return Post.objects.filter(author__pk__in=subscribes)
         return Post.objects.select_related('author').all()
-    
+
     def perform_create(self, serializer):
         """Добавляем автора при создании поста."""
         serializer.save(
@@ -49,7 +51,9 @@ class APIReaded(views.APIView):
         user = get_object_or_404(User, username=request.user)
         post = get_object_or_404(Post, pk=pk)
         try:
-            serializer = ReadedPostSerializer(data={"user": user.pk, "post": post.pk})
+            serializer = ReadedPostSerializer(
+                data={"user": user.pk, "post": post.pk}
+            )
             serializer.is_valid(raise_exception=True)
             serializer.save()
             return Response(
@@ -62,8 +66,9 @@ class APIReaded(views.APIView):
                 status=status.HTTP_400_BAD_REQUEST
             )
 
+
 @api_view(['GET'])
 def send_email(request):
     """Функция рассылки писем."""
     task_execute()
-    return Response({'message': 'send_email WORKS!!!!'}) 
+    return Response({'message': 'send_email WORKS!!!!'})

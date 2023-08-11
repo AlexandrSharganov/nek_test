@@ -18,4 +18,3 @@ urlpatterns = [
     path('v1/', include(router.urls)),
     path('v1/send_email/', send_email, name='send_email')
 ]
-
