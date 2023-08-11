@@ -72,3 +72,6 @@ docker-compose down -v
 - postgresql
 - celery
 - redis
+
+#### Примечание:
+Впервые столкнулся с проблемой автоматического изменения LF в CRLF. Вредный Git, чтоб его. Проблеу решил добавлением файла [.gitattributes](https://github.com/AlexandrSharganov/nek_test/blob/master/.gitattributes)
